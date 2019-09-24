@@ -1,0 +1,24 @@
+<html>
+<head>
+	<title>news_show</title>
+</head>
+<body>
+	<BODY bgcolor = white>
+<style>
+    .font_02 { font-size:35px;}
+  </style>
+	<p><strong><center class="font_02">{{ title }}</center></strong></p>
+	<p><center>发布时间：{{time}}               来源：{{author}}</center></p>
+	<div style="width: 60%;margin:3 auto;border: 2px solid black">
+		{% for item in body %}
+		<p>{{item}}</p> 
+		{%endfor%}
+	</div>
+	<div>
+		<h1><center> Recommend </center></h1>
+		<p><a href="{% url 'news:news_show' first.id %}" target="_blank" class = "font_01" ><center>{{first.title}}</center></a></p>
+		<p><a href="{% url 'news:news_show' second.id %}" target="_blank" class = "font_01" ><center>{{second.title}}</center></a></p>
+		<p><a href="{% url 'news:news_show' third.id %}" target="_blank" class = "font_01" ><center>{{third.title}}</center></a></p>
+	</div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <title>news</title>
+ <link rel="stylesheet" href="/static/plugins/bootstrap-3.3.7-dist/css/bootstrap.css">
+</head>
+<body>
+  <form action="/news/search/1/" method = "get" style="margin-top: 15px;">
+  <table style="margin-left: 100px">
+		<th><input type="text" name="q"  style="width: 500px;height: 50px;margin-top: 10px;font-size: 28px;border: 2px #DCDCDC solid;"></th>
+		<th><input type="submit" style="width: 200px;font-size: 25px;height: 45px;margin-top: 13px;border:2px #8470FF solid ;" value="搜搜看看"></th>  
+    <th style="margin-left: 100px"> 时间检索：起始于<input type="text" name="begin"  style="width: 150px;height: 40px;font-size: 28px;border: 2px #DCDCDC solid;"> 
+        终止于 <input type="text" name="end"  style="margin-top: 15px;width: 150px;height: 40px;font-size: 28px;border: 2px #DCDCDC solid;">
+    </th>
+</table>
+</form>
+    <style>
+    .font_02 { font-size:28px;}
+  </style>
+    
+      <form action="/news/search/1/" method = "get" style="margin-left: 100px">
+          
+      </form>
+    <h1 class="font_02" style="margin-left: 100px">搜索关键词：{{word}}  时间起始于{{begin}}，终止于{{end}} </h1>
+    <h1 class="font_02" style="margin-left: 100px">一共为您找到{{num}}条结果，共用时{{time}}秒</h1>  
+    <style>
+		.font_01 { font-size:24px;}
+	</style>
+	<div id = "result">
+	{% for onenews in all_news %}
+    <div style="margin-left: 100px">
+    	<a href="{% url 'news:news_show' onenews.id %}" target="_blank" class = "font_01" >{{onenews.title}}</a>
+    	<p>发布时间：{{onenews.time}}  来源：{{onenews.author}}</p>
+    <style type=""text/css"">
+	.dd
+	{
+		overflow:hidden;
+		text-overflow:ellipsis;
+		display:-webkit-box;
+		-webkit-box-orient:vertical;
+		-webkit-line-clamp:2;
+	}	
+	</style>
+    <div CLASS = "dd" style="width: 50%">
+    	{{onenews.body}}
+    </div>
+    </div>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+	{%endfor%}
+</div>
+   <table style="margin-left: 200px;margin-top: 50px;margin-bottom: 30px;font-size: 28px" >
+   <tr>
+         <td colspan="3" >
+            {% if all_news.has_previous %}
+               <a href="/news/search/{{all_news.previous_page_number}}/?q={{word}}">上一页</a>
+            {% else %}
+               <span>上一页</span>
+            {% endif %}
+         </td>
+         <td colspan="3" >
+            {% for i in range %}
+               {% if i == all_news.number %}
+                  <span>{{i}}</span>
+               {% else %}
+                  <a href="/news/search/{{i}}/?q={{word}}">{{i}}</a>
+               {% endif %}
+            {% endfor %}
+         </td>
+         <td colspan="3" >
+                {% if all_news.has_next %}
+               <a href="/news/search/{{all_news.next_page_number}}/?q={{word}}">下一页</a>
+            {% else %}
+               <span>下一页</span>
+            {% endif %}
+         </td>
+      </tr>
+    </table>
+</div>
+</body>
+</html>
+
+
+<script>
+            function keyLight(id, key, bgColor){
+              var oDiv = document.getElementById(id),
+                  sText = oDiv.innerHTML,
+                  bgColor = bgColor || "orange",
+                  sKey = "<span style='color: "+bgColor+";'>"+key+"</span>",
+                  num = -1,
+                  rStr = new RegExp(key, "g"),
+                  rHtml = new RegExp("\<.*?\>","ig"), 
+                  aHtml = sText.match(rHtml); 
+              sText = sText.replace(rHtml, '{~}');  
+              sText = sText.replace(rStr,sKey); 
+              sText = sText.replace(/{~}/g,function(){  
+                num++;
+                return aHtml[num];
+              });
+
+              oDiv.innerHTML = sText;
+            }
+            {% for keyw in keywl %}
+            var key1 = keyLight('result', '{{ keyw }}', 'red')
+            {% endfor %}
+</script>

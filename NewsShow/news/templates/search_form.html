@@ -1,0 +1,46 @@
+<html>
+<head>
+	<title>Search</title>
+</head>
+<body>
+	<h1 style="margin-top: 200px;"><center>搜搜看看，你就知道</center></h1>
+	<table>
+	<tr>
+	<form action="/news/search/1/" method = "get">
+		<th><input type="text" name="q"
+		style="margin-left : 300px;margin-top: 0px;width: 1000px;height: 50px;font-size: 30px;border: #DCDCDC solid;"></th>
+		<th><input type="submit" style="width: 150;height: 50;border: 2px #8470FF solid;font-size: 20px" value="搜索看看"></th>
+	</form>
+</tr>
+</table>
+	<p><center>共计3568条新闻</center></p>
+<div id = "result" style="border: 2px solid black;width:60%;text-align: center;margin: 2 auto">
+	{% for onenews in all_news %}
+    <div >
+    	<a href="{% url 'news:news_show' onenews.id %}" target="_blank" class = "font_01" ><center>{{onenews.title}}</center></a>
+    </div>
+    <p></p>
+    <p></p>
+	{%endfor%}
+	<div class="page" style="text-align: center;">
+	<td colspan="3" style="text-align: center;">           
+               <a href="/news/search-form/1/">首页</a>
+         </td>
+	<td colspan="3" style="text-align: center;">
+            {% if all_news.has_previous %}
+               <a href="/news/search-form/{{all_news.previous_page_number}}/">上一页</a>
+            {% else %}
+               <span>上一页</span>
+            {% endif %}
+         </td>
+    <td colspan="3" style="text-align: center;">
+                {% if all_news.has_next %}
+               <a href="/news/search-form/{{all_news.next_page_number}}/">下一页</a>
+            {% else %}
+               <span>下一页</span>
+            {% endif %}
+         </td> 
+    </div>    
+</div>
+</body>
+</html>
